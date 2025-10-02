@@ -13,19 +13,19 @@ export const client = new MongoClient(uri);
     await client.connect();
     console.log("Connected to MongoDB ✅");
 
-    cron.schedule("*/15 * * * * *", () => {
+    cron.schedule("0 */15 * * * *", () => {
       calculateAggreagates(
         new Date(Date.now() - 15 * 60 * 1000),
         RangeType.QUARTER_HOURLY
       );
     });
-    cron.schedule("*/15 * * * * *", () => {
+    cron.schedule("0 */30 * * * *", () => {
       calculateAggreagates(
         new Date(Date.now() - 30 * 60 * 1000),
         RangeType.HALF_HOURLY
       );
     });
-    cron.schedule("*/15 * * * * *", () => {
+    cron.schedule("0 0 * * * *", () => {
       calculateAggreagates(
         new Date(Date.now() - 60 * 60 * 1000),
         RangeType.HOURLY
