@@ -1,0 +1,28 @@
+{
+  "name": "background-jobs",
+  "module": "server.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^24.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "start": "bun run dist/server.js"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "bullmq": "^5.58.8",
+    "dotenv": "^17.2.2",
+    "ioredis": "^5.8.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.18.2",
+    "node-cron": "^4.2.1"
+  }
+}
