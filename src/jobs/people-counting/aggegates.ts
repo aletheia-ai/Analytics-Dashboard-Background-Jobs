@@ -1,5 +1,5 @@
 // import mongoose from "mongoose";
-import { RangeType } from "utils/types.ts/range-type";
+import { RangeType } from "../../utils/types/range-type"; //"utils/types/range-type";
 import { client } from "../../server";
 
 const defaultData = {

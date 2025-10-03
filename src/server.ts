@@ -1,8 +1,8 @@
 import cron from "node-cron";
 import * as dotenv from "dotenv";
 import { MongoClient } from "mongodb";
-import { calculateAggreagates, resetStats } from "jobs/people-counting";
-import { RangeType } from "utils/types.ts/range-type";
+import { calculateAggreagates, resetStats } from "./jobs/people-counting";
+import { RangeType } from "./utils/types/range-type"; //"./utils/types.ts/range-type";
 dotenv.config();
 
 const uri = process.env.MONGO_URL!;
