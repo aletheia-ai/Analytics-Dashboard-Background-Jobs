@@ -1,0 +1,64 @@
+name: Docker Build Upload CI
+on:
+  push:
+    branches: [main]
+jobs:
+  build_push_docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare
+        id: prep
+        run: |
+          SHA=${GITHUB_HEAD_REF}
+          if [[ -z "$SHA" ]]; then
+              SHA=main
+          fi
+          SHA=${SHA////_}
+          echo "GITHUB_REF: $GITHUB_REF"
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "Branch Name: $BRANCH_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+          TAG1=dashboard.jobs.$BRANCH_NAME
+          IMAGE="aletheiaai/deployments"
+          DATE=$(date +"%d%m%Y")
+          echo "image_tag1=${IMAGE}:${TAG1}" >> "$GITHUB_OUTPUT"
+          echo "date=${DATE}" >> "$GITHUB_OUTPUT"
+          echo "tag1=${TAG1}" >> "$GITHUB_OUTPUT"
+          echo ${IMAGE}:${TAG1}
+          echo ${IMAGE}:${TAG1}.${DATE}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+      - name: Set up Docker Buildx
+        id: buildx
+        # Use the action from the master, as we've seen some inconsistencies with @v1
+        # Issue: https://github.com/docker/build-push-action/issues/286
+        uses: docker/setup-buildx-action@master
+        # Only worked for us with this option on 🤷‍♂️
+        with:
+          install: true
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERLOGIN }}
+          password: ${{ secrets.DOCKERPWD }}
+      - name: Build frontend image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          # Set the desired build target here
+          push: true
+          tags: |
+            ${{ steps.prep.outputs.image_tag1 }}
+            ${{ steps.prep.outputs.image_tag1 }}.${{ steps.prep.outputs.date }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          # Note the mode=max here
+          # More: https://github.com/moby/buildkit#--export-cache-options
+          # And: https://github.com/docker/buildx#--cache-tonametypetypekeyvalue
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
