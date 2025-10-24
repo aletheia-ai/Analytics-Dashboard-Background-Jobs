@@ -40,10 +40,10 @@ export const client = new MongoClient(uri);
     });
 
     cron.schedule("59 59 23 * * 0", () => {
-      resetStats("day wise stats");
+      resetStats("day_wise_stats");
     });
     cron.schedule("59 59 23 * * *", () => {
-      resetStats("hour wise stats");
+      resetStats("hour_wise_stats");
     });
   } catch (err) {
     console.error("MongoDB connection error ❌", err);

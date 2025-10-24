@@ -17,9 +17,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "bullmq": "^5.58.8",
     "dotenv": "^17.2.2",
-    "ioredis": "^5.8.0",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.2",
     "node-cron": "^4.2.1"

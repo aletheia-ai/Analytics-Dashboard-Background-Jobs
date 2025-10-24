@@ -1,5 +1,4 @@
-// import mongoose from "mongoose";
-import { RangeType } from "../../utils/types/range-type"; //"utils/types/range-type";
+import { RangeType } from "../../utils/types/range-type";
 import { client } from "../../server";
 
 const defaultData = {
@@ -134,9 +133,9 @@ const pipeline = (time: Date, range: RangeType) => {
 };
 export const calculateAggreagates = async (time: Date, range: RangeType) => {
   const db = client.db("brick-and-mortars");
-  const rawStats = db.collection("person countings");
+  const rawStats = db.collection("person_countings");
   const result = await rawStats.aggregate(pipeline(time, range)).toArray();
-  const productStats = db.collection("product stats");
+  const productStats = db.collection("product_stats");
 
   const [doc] = result;
   const mergedArray = [...(doc?.perStore || []), ...(doc.perStoreCamera || [])];
