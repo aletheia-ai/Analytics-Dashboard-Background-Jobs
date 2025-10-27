@@ -150,6 +150,7 @@ export const calculateAggreagates = async (time: Date, range: RangeType) => {
         $set: {
           data: item.data,
           updatedAt: new Date(),
+          source: "from-cron",
         },
       },
       { upsert: true }
@@ -189,6 +190,7 @@ export const calculateAggreagates = async (time: Date, range: RangeType) => {
       {
         $set: {
           data: defaultData,
+          source: "from-cron",
         },
       }
     );
