@@ -14,18 +14,21 @@ export const client = new MongoClient(uri);
     console.log("Connected to MongoDB ✅");
 
     cron.schedule("0 */15 * * * *", () => {
+      console.log("15 mints");
       calculateAggreagates(
         new Date(Date.now() - 15 * 60 * 1000),
         RangeType.QUARTER_HOURLY
       );
     });
     cron.schedule("0 */30 * * * *", () => {
+      console.log("30 mints");
       calculateAggreagates(
         new Date(Date.now() - 30 * 60 * 1000),
         RangeType.HALF_HOURLY
       );
     });
     cron.schedule("0 0 * * * *", () => {
+      console.log("1 hour");
       calculateAggreagates(
         new Date(Date.now() - 60 * 60 * 1000),
         RangeType.HOURLY
@@ -33,6 +36,7 @@ export const client = new MongoClient(uri);
     });
 
     cron.schedule("0 0 * * *", () => {
+      console.log("daily");
       calculateAggreagates(
         new Date(Date.now() - 24 * 60 * 60 * 1000),
         RangeType.DAILY
