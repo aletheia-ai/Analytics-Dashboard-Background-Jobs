@@ -132,7 +132,7 @@ const pipeline = (time: Date, range: RangeType) => {
   ];
 };
 export const calculateAggreagates = async (time: Date, range: RangeType) => {
-  const db = client.db("brick-and-mortars");
+  const db = client.db("global-dashboard");
   const rawStats = db.collection("person_countings");
   const result = await rawStats.aggregate(pipeline(time, range)).toArray();
   const productStats = db.collection("product_stats");
