@@ -1,7 +1,7 @@
 import { client } from "../../server";
 export const resetStats = async (collection: string) => {
   console.log("Executing a cron-job");
-  const db = client.db("brick-and-mortars");
+  const db = client.db("global-dashboard");
 
   db.collection(collection).updateMany(
     {},
